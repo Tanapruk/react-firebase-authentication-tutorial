@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
-
+import 'firebase/database'
 const config = {
   apiKey: 'AIzaSyBrb7203i1OXieBBddOxWLaFfid7vT0ORc',
   authDomain: 'reactfirebaseauthtutoria-13975.firebaseapp.com',
@@ -13,7 +13,7 @@ const config = {
 if (!firebase.apps.length) {
   firebase.initializeApp(config)
 }
-
+const db = firebase.database()
 const auth = firebase.auth()
 
-export { auth }
+export { db, auth }
