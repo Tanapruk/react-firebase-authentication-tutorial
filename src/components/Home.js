@@ -13,12 +13,13 @@ class HomePage extends Component {
     }
   }
   componentDidMount() {
+    const { onSetUsers } = this.props
     db.onceGetUsers().then((snapshot) => {
-      this.setState({ users: snapshot.val() })
+      onSetUsers(snapshot.val())
     })
   }
   render() {
-    const { users } = this.state
+    const { users } = this.props
     return (
       <div>
         <h1>Home Page</h1>
@@ -38,7 +39,20 @@ const UserList = ({ users }) => (
     ))}
   </div>
 )
+const mapStateToProps = (state) => ({
+  users: state.userState.users
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetUsers: (users) => dispatch({ type: 'USERS_SET', users })
+})
 
 const authCondition = (authUser) => !!authUser
 
-export default withAuthorization(authCondition)(HomePage)
+export default compose(
+  withAuthorization(authCondition),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(HomePage)
